@@ -74,6 +74,7 @@ public class HomeScreen {
                                             3. Year To Date
                                             4. Previous Year
                                             5. Search by Vendor
+                                            6. Custom Search
                                             0. Back
                                             """);
                                     int reportsChoice = Integer.parseInt(scanner.nextLine());
@@ -95,9 +96,11 @@ public class HomeScreen {
                                             String vendorName = scanner.nextLine();
                                             ledger.searchByVendor(vendorName);
                                             break;
+                                        case 6: //custom search challenge
+                                            System.out.println("Please enter the following search values:");
+                                            break;
                                         case 0:
                                             reportsMenu = false; //brings user back to ledger menu
-
                                     }
                                 }
                             }
@@ -136,8 +139,8 @@ public class HomeScreen {
     public static double validNumber(Scanner scanner, String prompt) {
         while(true) {
             System.out.println(prompt);
-            double input = Double.parseDouble(scanner.nextLine());
             try {
+                double input = Double.parseDouble(scanner.nextLine());
                 if (input == 0) {
                     System.err.println("Error: Value cannot be 0. Please try again: \n");
                 } else {
