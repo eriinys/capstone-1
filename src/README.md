@@ -16,33 +16,34 @@
   - -switch statement inside while loop for home screen selection 
     - Add Deposit (save to csv file via BufferedWriter)
     - Make Payment 
-    - Ledger Display
-    - Exit (return;)
-  - Methods for Add Deposit/Make Payment/Ledger Display
-  
+    - Ledger Display (switch statement)
+      - Display all entries
+      - Display deposits
+      - Display payments
+      - Reports (switch statement)
+        - Month to Date
+        - Previous Month
+        - Year To Date
+        - Previous Year
+        - Search by Vendor (.contains/.equalsIgnoreCase
+        - Back
+    - Exit
+  - methods for catching invalid user input
+
+
 - Ledger
+  - ArrayLists of Transaction Object
   - Add Deposit method
   - Make Payment method
-  - Saving Transaction:
-      - BufferedWriter (transaction.csv) under try/catch
-      -  LocalDateTime.now() / DateTimeFormatter.ofPattern
-  
-  - BufferedReader (reading from transaction.csv) under try/catch
-  - ArrayLists of Transaction Object
-  - Ledger Display switch statement
-    A) Display all entries 
-    D) Display deposits
-    P) Display payments
-    R) Reports
-      - switch statement 
-        1) Month to Date
-        2) Previous Month
-        3) Year To Date
-        4) Previous Year
-        5) Search by Vendor (.contains/.equalsIgnoreCase
-        0) Back 
+  - Writing Transaction:
+    - BufferedWriter (transaction.csv) under try/catch
+  - Reading Transaction:
+    - BufferedReader (reading from transaction.csv) under try/catch
+  - Ledger methods
+    - displayAll
+    - displayDeposits
+    - displayPayments
     - Methods for Reports search (case 1-5)
-
 
 - Transaction
     - Transaction field
@@ -50,4 +51,15 @@
     - getters/setters
     - toString method
 
-## Testing
+## Testing/Bugfix History:
+
+- deposit/payment methods were not recording in transaction.csv
+  - fixed by loading transactions at start of HomeScreen
+    - Ledger ledger = new Ledger();
+      ledger.readTransaction()
+  - fixed by adding ledger.writeTransaction(); in both case "D" and "P"
+- display methods kept printing "no history available" exception
+  - fixed by adding boolean to the methods
+- added nonBlankInput and validNumber methods to HomeScreen to prevent invalid inputs from user
+- loop issue with returning back to main menu from ledger menu
+  - fixed by adding boolean ledgerMenu
