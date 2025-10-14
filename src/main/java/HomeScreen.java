@@ -65,34 +65,44 @@ public class HomeScreen {
                             case "P" -> ledger.displayPayment();
 
                             case "R" -> {
-                                System.out.println("""
-                                        Please choose from following report options:
-                                        1. Month To Date
-                                        2. Previous Month
-                                        3. Year To Date
-                                        4. Previous Year
-                                        5. Search by Vendor
-                                        0. Back
-                                        """);
-                                int reportsChoice = Integer.parseInt(scanner.nextLine());
-                                switch (reportsChoice) {
-                                    case 1:
-                                        break;
-                                    case 2:
-                                        break;
-                                    case 3:
-                                        break;
-                                    case 4:
-                                        break;
-                                    case 5:
-                                        break;
-                                    case 0:
-                                        break;
+                                boolean reportsMenu = true;
+                                while (reportsMenu) {
+                                    System.out.println("""
+                                            Please choose from following report options:
+                                            1. Month To Date
+                                            2. Previous Month
+                                            3. Year To Date
+                                            4. Previous Year
+                                            5. Search by Vendor
+                                            0. Back
+                                            """);
+                                    int reportsChoice = Integer.parseInt(scanner.nextLine());
+                                    switch (reportsChoice) {
+                                        case 1:
+                                            ledger.monthToDate();
+                                            break;
+                                        case 2:
+                                            ledger.previousMonth();
+                                            break;
+                                        case 3:
+                                            ledger.yearToDate();
+                                            break;
+                                        case 4:
+                                            ledger.previousYear();
+                                            break;
+                                        case 5:
+                                            System.out.println("Enter the name of the vendor you'd like to search for: ");
+                                            String vendorName = scanner.nextLine();
+                                            ledger.searchByVendor(vendorName);
+                                            break;
+                                        case 0:
+                                            reportsMenu = false; //brings user back to ledger menu
 
+                                    }
                                 }
                             }
                             case "H" -> {
-                                ledgerMenu = false;
+                                ledgerMenu = false; //brings user back to main menu
                             }
                         }
                     }
@@ -106,9 +116,7 @@ public class HomeScreen {
 
                 default -> System.out.println("Invalid input. Please choose from options D, P, L, and X: \n");
             }
-
         }
-
     }
 
     //method for catching blank user input

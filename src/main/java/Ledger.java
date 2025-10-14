@@ -94,7 +94,6 @@ public class Ledger {
         if (!available) {
             System.out.println("No deposit history available. \n");
         }
-
     }
 
     public void displayPayment() {
@@ -111,26 +110,86 @@ public class Ledger {
     }
     //endregion
 
-    //reports methods for options 1-5
-    public ArrayList<Transaction> monthToDate() {
-        ArrayList<Transaction> result = new ArrayList<>();
-        LocalDate date = LocalDate.now();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd");
+    //region reports methods for options 1-5
+    public void monthToDate() { //start of month to today's date
+        LocalDate today = LocalDate.now();
+        LocalDate firstOfMonth = today.withDayOfMonth(1);
+
+        boolean found = false;
         for (Transaction transaction : transactions) {
-            if(transactions.contains(date.format(dateFormatter))) {
-                result.add(transaction);
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+            if (!transactionDate.isBefore(firstOfMonth) && !transactionDate.isAfter(today)) {
+                System.out.println("Month to date transactions: \n" + transaction + "\n");
+                found = true;
             }
         }
-        return result;
+        if (!found) {
+            System.out.println("No transaction history found for this time frame.");
+        }
     }
 
-    public ArrayList<Transaction> previousMonth() {
-        ArrayList<Transaction> result = new ArrayList<>();
+    public void previousMonth() {
+        LocalDate today = LocalDate.now();
+        LocalDate prevMonthFirst = today.minusMonths(1).withDayOfMonth(1);
+        LocalDate prevMonthLast = prevMonthFirst.withDayOfMonth(prevMonthFirst.lengthOfMonth());
 
-        return result;
+        boolean found = false;
+        for (Transaction transaction : transactions) {
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+            if (!transactionDate.isBefore(prevMonthFirst) && !transactionDate.isAfter(prevMonthLast)) {
+                System.out.println("Previous month transactions:\n" + transaction + "\n");
+                found = true;
+            }
+            if (!found) {
+                System.out.println("No transaction history found for this time frame. \n");
+            }
+        }
     }
 
+    public void yearToDate() {
+        LocalDate today = LocalDate.now();
+        LocalDate firstOfYear = today.withDayOfYear(1);
 
+        boolean found = false;
+        for (Transaction transaction : transactions) {
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+            if (!transactionDate.isBefore(firstOfYear) && !transactionDate.isAfter(today)) {
+                System.out.println("Year to date transactions: \n" + transaction + "\n");
+            }
+        }
+        if (!found) {
+            System.out.println("No transaction history found for this time frame. \n");
+        }
+    }
 
+    public void previousYear() {
+        LocalDate today = LocalDate.now();
+        LocalDate prevYearFirst = today.minusYears(1).withMonth(1).withDayOfMonth(1);
+        LocalDate prevYearLast = prevYearFirst.withMonth(12).withDayOfMonth(31);
+
+        boolean found = false;
+        for (Transaction transaction : transactions) {
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+            if (!transactionDate.isBefore(prevYearFirst) && !transactionDate.isAfter(prevYearLast)){
+                System.out.println("Previous year transactions: \n" + transaction + "\n");
+            }
+        }
+        if (!found) {
+            System.out.println("No transaction history found for this time frame. \n");
+        }
+    }
+
+    public void searchByVendor(String vendorName) {
+        boolean found = false;
+        for (Transaction transaction : transactions) {
+            if (transaction.getVendor().equalsIgnoreCase(vendorName)) {
+                System.out.println("Transaction result: " + transaction + "\n");
+            }
+        }
+        if (!found) {
+            System.out.println("No transaction history found for this vendor. \n");
+        }
+    }
+    //endregion
 
 }
