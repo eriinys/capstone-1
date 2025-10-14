@@ -111,15 +111,17 @@ public class Ledger {
     //endregion
 
     //region reports methods for options 1-5
+    //case 1:
     public void monthToDate() { //start of month to today's date
         LocalDate today = LocalDate.now();
         LocalDate firstOfMonth = today.withDayOfMonth(1);
 
         boolean found = false;
+        System.out.println("Month to date transactions: \n");
         for (Transaction transaction : transactions) {
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
             if (!transactionDate.isBefore(firstOfMonth) && !transactionDate.isAfter(today)) {
-                System.out.println("Month to date transactions: \n" + transaction + "\n");
+                System.out.println(transaction + "\n");
                 found = true;
             }
         }
@@ -128,33 +130,19 @@ public class Ledger {
         }
     }
 
+    //case 2:
     public void previousMonth() {
         LocalDate today = LocalDate.now();
         LocalDate prevMonthFirst = today.minusMonths(1).withDayOfMonth(1);
         LocalDate prevMonthLast = prevMonthFirst.withDayOfMonth(prevMonthFirst.lengthOfMonth());
 
         boolean found = false;
+        System.out.println("Previous month transactions:\n");
         for (Transaction transaction : transactions) {
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
             if (!transactionDate.isBefore(prevMonthFirst) && !transactionDate.isAfter(prevMonthLast)) {
-                System.out.println("Previous month transactions:\n" + transaction + "\n");
+                System.out.println(transaction + "\n");
                 found = true;
-            }
-            if (!found) {
-                System.out.println("No transaction history found for this time frame. \n");
-            }
-        }
-    }
-
-    public void yearToDate() {
-        LocalDate today = LocalDate.now();
-        LocalDate firstOfYear = today.withDayOfYear(1);
-
-        boolean found = false;
-        for (Transaction transaction : transactions) {
-            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
-            if (!transactionDate.isBefore(firstOfYear) && !transactionDate.isAfter(today)) {
-                System.out.println("Year to date transactions: \n" + transaction + "\n");
             }
         }
         if (!found) {
@@ -162,16 +150,40 @@ public class Ledger {
         }
     }
 
+    //case 3:
+    public void yearToDate() {
+        LocalDate today = LocalDate.now();
+        LocalDate firstOfYear = today.withDayOfYear(1);
+
+        boolean found = false;
+        System.out.println("Year to date transactions: \n");
+
+        for (Transaction transaction : transactions) {
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+            if (!transactionDate.isBefore(firstOfYear) && !transactionDate.isAfter(today)) {
+                System.out.println(transaction + "\n");
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No transaction history found for this time frame. \n");
+        }
+    }
+
+    //case 4:
     public void previousYear() {
         LocalDate today = LocalDate.now();
         LocalDate prevYearFirst = today.minusYears(1).withMonth(1).withDayOfMonth(1);
         LocalDate prevYearLast = prevYearFirst.withMonth(12).withDayOfMonth(31);
 
         boolean found = false;
+        System.out.println("Previous year transactions: \n");
+
         for (Transaction transaction : transactions) {
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
             if (!transactionDate.isBefore(prevYearFirst) && !transactionDate.isAfter(prevYearLast)){
-                System.out.println("Previous year transactions: \n" + transaction + "\n");
+                System.out.println(transaction + "\n");
+                found = true;
             }
         }
         if (!found) {
@@ -179,11 +191,15 @@ public class Ledger {
         }
     }
 
+    //case 5:
     public void searchByVendor(String vendorName) {
         boolean found = false;
+        System.out.println("Transaction result: \n");
+
         for (Transaction transaction : transactions) {
             if (transaction.getVendor().equalsIgnoreCase(vendorName)) {
-                System.out.println("Transaction result: " + transaction + "\n");
+                System.out.println(transaction + "\n");
+                found = true;
             }
         }
         if (!found) {
