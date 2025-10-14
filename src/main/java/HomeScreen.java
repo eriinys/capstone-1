@@ -4,9 +4,8 @@ import java.io.*;
 public class HomeScreen {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Ledger ledger = new Ledger();
-
-        ledger.readTransaction();
+        Ledger ledger = new Ledger(); //create new Ledger object via instantiating Ledger class (blueprint)
+        ledger.readTransaction(); //call .readTransaction() method on ledger object loading transactions from CSV into this ledger object's list
 
         while (true) {
             System.out.println("""
@@ -47,54 +46,56 @@ public class HomeScreen {
                 }
 
                 case "L" -> {
-                    System.out.println("""
-                            Choose from following Ledger options: 
-                            A) Display all entries
-                            D) Display deposits
-                            P) Display payments
-                            R) Reports
-                            """);
-                    String ledgerChoice = scanner.nextLine().toUpperCase();
-                    switch (ledgerChoice) {
-                        case "A" ->
-                            ledger.displayAll();
+                    boolean ledgerMenu = true;
+                    while (ledgerMenu) {
+                        System.out.println("""
+                                Choose from following Ledger options: 
+                                A) Display all entries
+                                D) Display deposits
+                                P) Display payments
+                                R) Reports
+                                H) Home
+                                """);
+                        String ledgerChoice = scanner.nextLine().toUpperCase();
+                        switch (ledgerChoice) {
+                            case "A" -> ledger.displayAll();
 
-                        case "D" ->
-                            ledger.displayDeposit();
+                            case "D" -> ledger.displayDeposit();
 
-                        case "P" ->
-                            ledger.displayPayment();
+                            case "P" -> ledger.displayPayment();
 
-                        case "R" -> {
-                            System.out.println("""
-                                    Please choose from following report options:
-                                    1. Month To Date
-                                    2. Previous Month
-                                    3. Year To Date
-                                    4. Previous Year
-                                    5. Search by Vendor
-                                    0. Back
-                                    """);
-                            int reportsChoice = Integer.parseInt(scanner.nextLine());
-                            switch(reportsChoice){
-                                case 1:
-                                    break;
-                                case 2:
-                                    break;
-                                case 3:
-                                    break;
-                                case 4:
-                                    break;
-                                case 5:
-                                    break;
-                                case 0:
-                                    break;
+                            case "R" -> {
+                                System.out.println("""
+                                        Please choose from following report options:
+                                        1. Month To Date
+                                        2. Previous Month
+                                        3. Year To Date
+                                        4. Previous Year
+                                        5. Search by Vendor
+                                        0. Back
+                                        """);
+                                int reportsChoice = Integer.parseInt(scanner.nextLine());
+                                switch (reportsChoice) {
+                                    case 1:
+                                        break;
+                                    case 2:
+                                        break;
+                                    case 3:
+                                        break;
+                                    case 4:
+                                        break;
+                                    case 5:
+                                        break;
+                                    case 0:
+                                        break;
 
+                                }
+                            }
+                            case "H" -> {
+                                ledgerMenu = false;
                             }
                         }
-
                     }
-
                 }
 
                 case "X" -> {
@@ -103,13 +104,14 @@ public class HomeScreen {
                     return;
                 }
 
-                default -> System.out.println("Invalid input. Please choose from options D, P, L, and X: ");
+                default -> System.out.println("Invalid input. Please choose from options D, P, L, and X: \n");
             }
 
         }
 
     }
 
+    //method for catching blank user input
     public static String nonBlankInput(Scanner scanner, String prompt) {
         while (true) {
             System.out.println(prompt);
@@ -122,6 +124,7 @@ public class HomeScreen {
         }
     }
 
+    //method for catching 0
     public static double validNumber(Scanner scanner, String prompt) {
         while(true) {
             System.out.println(prompt);
