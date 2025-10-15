@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.*;
 import java.io.*;
 
@@ -50,9 +51,10 @@ public class HomeScreen {
                     while (ledgerMenu) {
                         System.out.println("""
                                 Choose from following Ledger options: 
-                                A) Display all entries
-                                D) Display deposits
-                                P) Display payments
+                                A) Display All Entries
+                                D) Display Deposits
+                                P) Display Payments
+                                B) Display Balance
                                 R) Reports
                                 H) Home
                                 """);
@@ -63,6 +65,8 @@ public class HomeScreen {
                             case "D" -> ledger.displayDeposit();
 
                             case "P" -> ledger.displayPayment();
+
+                            case "B" -> ledger.displayBalance();
 
                             case "R" -> {
                                 boolean reportsMenu = true;
@@ -101,9 +105,19 @@ public class HomeScreen {
 
                                             System.out.println("Enter the start date in YYYY-MM-DD format or press Enter to skip:");
                                             String startInput = scanner.nextLine();
+                                            if (startInput.isBlank()) {
+                                                startInput = null;
+                                            } else {
+                                                LocalDate.parse(startInput);
+                                            }
 
                                             System.out.println("Enter the end date in YYY-MM-DD format or press Enter to skip:");
                                             String endInput = scanner.nextLine();
+                                            if (endInput.isBlank()) {
+                                                endInput = null;
+                                            } else {
+                                                LocalDate.parse(endInput);
+                                            }
 
                                             System.out.println("Enter description word or press Enter to skip:");
                                             String descInput = scanner.nextLine();
@@ -114,14 +128,13 @@ public class HomeScreen {
                                             System.out.println("Enter amount or press Enter to skip:");
                                             String amountInput = scanner.nextLine();
 
-                                            double amount;
                                             if (amountInput.isBlank()) {
-                                                amount = Double.parseDouble(null);
+                                                amountInput = null;
                                             } else {
-                                                amount = Double.parseDouble(amountInput);
+                                                Double.parseDouble(amountInput);
                                             }
 
-                                            ArrayList<Transaction> filterList = ledger.customFilter(startInput, endInput, descInput, vendorInput, amount);
+                                            ArrayList<Transaction> filterList = ledger.customFilter(startInput, endInput, descInput, vendorInput, amountInput);
 
                                             if (filterList.isEmpty()) {
                                                 System.out.println("Matching transaction history not found.");

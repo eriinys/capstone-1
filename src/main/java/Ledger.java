@@ -108,6 +108,35 @@ public class Ledger {
             System.out.println("No payment history available. \n");
         }
     }
+    //extra feature added to see total account balance
+    public void displayBalance(){
+        ArrayList<Transaction> negative = new ArrayList<>();
+        ArrayList<Transaction> positive = new ArrayList<>();
+
+        for (Transaction transaction : transactions) {
+            if (transaction.getAmount() < 0) {
+                negative.add(transaction);
+            }
+        }
+        double totalNegative = 0;
+        for (Transaction transaction : negative) {
+            totalNegative += transaction.getAmount();
+        }
+
+        for (Transaction transaction : transactions) {
+            if (transaction.getAmount() > 0) {
+                positive.add(transaction);
+            }
+        }
+        double totalPositive = 0;
+        for (Transaction transaction : positive) {
+            totalPositive += transaction.getAmount();
+        }
+
+        double total = totalPositive - totalNegative;
+
+        System.out.println("Your current total balance is: $" + total + "\n");
+    }
     //endregion
 
     //region reports methods for options 1-5
@@ -209,12 +238,12 @@ public class Ledger {
     //endregion
 
     //region case 6: custom search methods (challenge)
-    public  ArrayList<Transaction> customFilter(String startDate, String endDate, String desc, String vendor, double amount) {
+    public  ArrayList<Transaction> customFilter(String startDate, String endDate, String desc, String vendor, String amount) {
         ArrayList<Transaction> filter;
 
         //filters and reassign updated result back to filter list each time
-        filter = filterStartDate(transactions, LocalDate.parse(startDate));
-        filter = filterEndDate(filter, LocalDate.parse(endDate));
+        filter = filterStartDate(transactions, startDate);
+        filter = filterEndDate(filter, endDate);
         filter = filterDesc(filter, desc);
         filter = filterVendor(filter, vendor);
         filter = filterAmount(filter, amount); //passes object reference
@@ -223,7 +252,7 @@ public class Ledger {
     }
 
     //helper methods for custom search
-    public ArrayList<Transaction> filterStartDate(ArrayList<Transaction> filterList, LocalDate startDate){
+    public ArrayList<Transaction> filterStartDate(ArrayList<Transaction> filterList, String startDate){
         //filterList here is new variable pointing to same master ArrayList of Transaction object (transactions)
         if (startDate == null) {
             return new  ArrayList<> (filterList);
@@ -233,21 +262,21 @@ public class Ledger {
         for (Transaction transaction : filterList) {
             //filterList is looping through same data that lives in transactions list
             LocalDate parsed = LocalDate.parse(transaction.getDate());
-            if (!parsed.isBefore(startDate)){
+            if (!parsed.isBefore(LocalDate.parse(startDate))){
                 filtered.add(transaction);
             }
         }
         return filtered;
     }
 
-    public ArrayList<Transaction> filterEndDate(ArrayList<Transaction> filterList, LocalDate endDate) {
+    public ArrayList<Transaction> filterEndDate(ArrayList<Transaction> filterList, String endDate) {
         if (endDate == null){
             return new  ArrayList<> (filterList);
         }
         ArrayList<Transaction> filtered = new ArrayList<>();
         for (Transaction transaction : filterList) {
             LocalDate parsed = LocalDate.parse(transaction.getDate());
-            if (!parsed.isAfter(endDate)){
+            if (!parsed.isAfter(LocalDate.parse(endDate))){
                 filtered.add(transaction);
             }
         }
@@ -273,20 +302,20 @@ public class Ledger {
         }
         ArrayList<Transaction> filtered = new ArrayList<>();
         for (Transaction transaction : filterList) {
-            if (transaction.getVendor().contains(vendor)) {
+            if (transaction.getVendor().equalsIgnoreCase(vendor)) {
                 filtered.add(transaction);
             }
         }
         return filtered;
     }
 
-    public ArrayList<Transaction> filterAmount(ArrayList<Transaction> filterList, double amount) {
-        if (amount == 0) {
+    public ArrayList<Transaction> filterAmount(ArrayList<Transaction> filterList, String amount) {
+        if (amount == null) {
             return  new ArrayList<>(filterList);
         }
         ArrayList<Transaction> filtered = new ArrayList<>();
         for (Transaction transaction : filterList){
-            if (transaction.getAmount() == amount) {
+            if (transaction.getAmount() == Double.parseDouble(amount)) {
                 filtered.add(transaction);
             }
         }
