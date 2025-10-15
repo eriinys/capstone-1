@@ -10,6 +10,7 @@ public class HomeScreen {
 
         while (true) {
             System.out.println("""
+                    -Home Screen-
                     Please choose from following options:
                     D) Add Deposit
                     P) Make Payment (Debit)
@@ -50,7 +51,8 @@ public class HomeScreen {
                     boolean ledgerMenu = true;
                     while (ledgerMenu) {
                         System.out.println("""
-                                Choose from following Ledger options: 
+                                -Ledger Menu-
+                                Choose from following Ledger options:
                                 A) Display All Entries
                                 D) Display Deposits
                                 P) Display Payments
@@ -72,6 +74,7 @@ public class HomeScreen {
                                 boolean reportsMenu = true;
                                 while (reportsMenu) {
                                     System.out.println("""
+                                            -Reports Menu-
                                             Please choose from following report options:
                                             1. Month To Date
                                             2. Previous Month
@@ -130,8 +133,6 @@ public class HomeScreen {
 
                                             if (amountInput.isBlank()) {
                                                 amountInput = null;
-                                            } else {
-                                                Double.parseDouble(amountInput);
                                             }
 
                                             ArrayList<Transaction> filterList = ledger.customFilter(startInput, endInput, descInput, vendorInput, amountInput);
