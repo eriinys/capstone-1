@@ -8,7 +8,10 @@
   2023-04-15|11:15:00|Invoice 1001 paid|Joe|1500.00
 
 ## Features
-- []
+- Add deposit/make payment
+- See different transaction history
+  - added custom search
+- Check current remaining account balance
 
 ## Project Structure
 - Home Screen (Main Entry Point)
@@ -20,16 +23,18 @@
       - Display all entries
       - Display deposits
       - Display payments
+      - Display balance
       - Reports (switch statement)
         - Month to Date
         - Previous Month
         - Year To Date
         - Previous Year
-        - Search by Vendor (.contains/.equalsIgnoreCase
+        - Search by Vendor
+        -Custom Search (challenge option)
         - Back
+      - Home
     - Exit
-  - methods for catching invalid user input
-
+  - Methods for catching invalid user input
 
 - Ledger
   - ArrayLists of Transaction Object
@@ -44,6 +49,7 @@
     - displayDeposits
     - displayPayments
     - Methods for Reports search (case 1-5)
+    - Custom Search Method (challenge)
 
 - Transaction
     - Transaction field
@@ -52,7 +58,6 @@
     - toString method
 
 ## Testing/Bugfix History:
-
 - deposit/payment methods were not recording in transaction.csv
   - fixed by loading transactions at start of HomeScreen
     - Ledger ledger = new Ledger();
@@ -63,3 +68,7 @@
 - added nonBlankInput and validNumber methods to HomeScreen to prevent invalid inputs from user
 - loop issue with returning back to main menu from ledger menu
   - fixed by adding boolean ledgerMenu
+- try/catch error in validNumber method for catching non-numeric inputs
+  - fixed by adding scanner input into try/catch scope
+- LocalDate parsing error for startDate/endDate and NullPointException error for amount in challenge method
+  - changed LocalDate and double to String inside the parameter and parsed it inside the method and in HomeScreen
