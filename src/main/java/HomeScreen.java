@@ -19,7 +19,7 @@ public class HomeScreen {
             String choice = scanner.nextLine().toUpperCase();
 
             switch (choice) {
-                case "D" -> { // -> {} auto stops after block; no break needed
+                case "D" -> { // -> auto ends after case / no break needed; {} for multiple lines
                     String description = nonBlankInput(scanner,"Please enter description of deposit: ");
                     String vendor = nonBlankInput(scanner, "Please enter the vendor: ");
 
@@ -98,15 +98,47 @@ public class HomeScreen {
                                             break;
                                         case 6: //custom search challenge
                                             System.out.println("Please enter the following search values:");
+
+                                            System.out.println("Enter the start date in YYYY-MM-DD format or press Enter to skip:");
+                                            String startInput = scanner.nextLine();
+
+                                            System.out.println("Enter the end date in YYY-MM-DD format or press Enter to skip:");
+                                            String endInput = scanner.nextLine();
+
+                                            System.out.println("Enter description word or press Enter to skip:");
+                                            String descInput = scanner.nextLine();
+
+                                            System.out.println("Enter vendor or press Enter to skip:");
+                                            String vendorInput = scanner.nextLine();
+
+                                            System.out.println("Enter amount or press Enter to skip:");
+                                            String amountInput = scanner.nextLine();
+
+                                            double amount;
+                                            if (amountInput.isBlank()) {
+                                                amount = Double.parseDouble(null);
+                                            } else {
+                                                amount = Double.parseDouble(amountInput);
+                                            }
+
+                                            ArrayList<Transaction> filterList = ledger.customFilter(startInput, endInput, descInput, vendorInput, amount);
+
+                                            if (filterList.isEmpty()) {
+                                                System.out.println("Matching transaction history not found.");
+                                            } else {
+                                                for (Transaction transaction : filterList) {
+                                                    System.out.println(transaction);
+                                                }
+                                            }
                                             break;
                                         case 0:
                                             reportsMenu = false; //brings user back to ledger menu
+                                            break;
                                     }
                                 }
                             }
-                            case "H" -> {
+                            case "H" ->
                                 ledgerMenu = false; //brings user back to main menu
-                            }
                         }
                     }
                 }
@@ -114,7 +146,7 @@ public class HomeScreen {
                 case "X" -> {
                     System.out.println("System closing..." +
                             "\nGoodbye!");
-                    return;
+                    return; //breaks out of entirely out of loop/switch/method
                 }
 
                 default -> System.out.println("Invalid input. Please choose from options D, P, L, and X: \n");

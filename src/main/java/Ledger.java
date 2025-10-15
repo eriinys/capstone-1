@@ -78,7 +78,7 @@ public class Ledger {
         if (transactions.isEmpty()){
             System.out.println("Account empty. There's nothing to display.\n");
         }
-        for (Transaction transaction : transactions) {
+        for (Transaction transaction : transactions) { //for each element (transaction) in transactions ArrayList...run loop until condition met
             System.out.println(transaction + "\n");
         }
     }
@@ -208,4 +208,89 @@ public class Ledger {
     }
     //endregion
 
+    //region case 6: custom search methods (challenge)
+    public  ArrayList<Transaction> customFilter(String startDate, String endDate, String desc, String vendor, double amount) {
+        ArrayList<Transaction> filter;
+
+        //filters and reassign updated result back to filter list each time
+        filter = filterStartDate(transactions, LocalDate.parse(startDate));
+        filter = filterEndDate(filter, LocalDate.parse(endDate));
+        filter = filterDesc(filter, desc);
+        filter = filterVendor(filter, vendor);
+        filter = filterAmount(filter, amount); //passes object reference
+
+        return filter;
+    }
+
+    //helper methods for custom search
+    public ArrayList<Transaction> filterStartDate(ArrayList<Transaction> filterList, LocalDate startDate){
+        //filterList here is new variable pointing to same master ArrayList of Transaction object (transactions)
+        if (startDate == null) {
+            return new  ArrayList<> (filterList);
+            //constructor creating/returning new ArrayList with contents copied from filterList (same as master ArrayList)
+        }
+        ArrayList<Transaction> filtered = new ArrayList<>(); //list here is empty since we're not copying from any source
+        for (Transaction transaction : filterList) {
+            //filterList is looping through same data that lives in transactions list
+            LocalDate parsed = LocalDate.parse(transaction.getDate());
+            if (!parsed.isBefore(startDate)){
+                filtered.add(transaction);
+            }
+        }
+        return filtered;
+    }
+
+    public ArrayList<Transaction> filterEndDate(ArrayList<Transaction> filterList, LocalDate endDate) {
+        if (endDate == null){
+            return new  ArrayList<> (filterList);
+        }
+        ArrayList<Transaction> filtered = new ArrayList<>();
+        for (Transaction transaction : filterList) {
+            LocalDate parsed = LocalDate.parse(transaction.getDate());
+            if (!parsed.isAfter(endDate)){
+                filtered.add(transaction);
+            }
+        }
+        return filtered;
+    }
+
+    public ArrayList<Transaction> filterDesc(ArrayList<Transaction> filterList, String desc) {
+        if (desc == null) {
+            return  new ArrayList<>(filterList);
+        }
+        ArrayList<Transaction> filtered = new ArrayList<>();
+        for (Transaction transaction : filterList) {
+            if (transaction.getDescription().contains(desc)) {
+                filtered.add(transaction);
+            }
+        }
+        return filtered;
+    }
+
+    public ArrayList<Transaction> filterVendor(ArrayList<Transaction> filterList, String vendor) {
+        if (vendor == null) {
+            return  new ArrayList<>(filterList);
+        }
+        ArrayList<Transaction> filtered = new ArrayList<>();
+        for (Transaction transaction : filterList) {
+            if (transaction.getVendor().contains(vendor)) {
+                filtered.add(transaction);
+            }
+        }
+        return filtered;
+    }
+
+    public ArrayList<Transaction> filterAmount(ArrayList<Transaction> filterList, double amount) {
+        if (amount == 0) {
+            return  new ArrayList<>(filterList);
+        }
+        ArrayList<Transaction> filtered = new ArrayList<>();
+        for (Transaction transaction : filterList){
+            if (transaction.getAmount() == amount) {
+                filtered.add(transaction);
+            }
+        }
+        return filtered;
+    }
+    //endregion
 }
