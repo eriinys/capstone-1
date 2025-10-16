@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.util.*;
 import java.io.*;
 
@@ -43,7 +42,6 @@ public class HomeScreen {
                                 ledger.makePayment(description, vendor, -amount);
                                 ledger.writeTransaction();
                                 System.out.println("Payment successfully made.");
-
                         }
                 }
 
@@ -110,16 +108,12 @@ public class HomeScreen {
                                             String startInput = scanner.nextLine();
                                             if (startInput.isBlank()) {
                                                 startInput = null;
-                                            } else {
-                                                LocalDate.parse(startInput);
                                             }
 
-                                            System.out.println("Enter the end date in YYY-MM-DD format or press Enter to skip:");
+                                            System.out.println("Enter the end date in YYYY-MM-DD format or press Enter to skip:");
                                             String endInput = scanner.nextLine();
                                             if (endInput.isBlank()) {
                                                 endInput = null;
-                                            } else {
-                                                LocalDate.parse(endInput);
                                             }
 
                                             System.out.println("Enter description word or press Enter to skip:");
@@ -135,7 +129,7 @@ public class HomeScreen {
                                                 amountSearch = 0;
                                             } else {
                                                 amountSearch = Double.parseDouble(amountInput);
-                                            } //
+                                            }
 
                                             ArrayList<Transaction> filterList = ledger.customFilter(startInput, endInput, descInput, vendorInput, amountSearch);
 
@@ -143,7 +137,7 @@ public class HomeScreen {
                                                 System.out.println("Matching transaction history not found.");
                                             } else {
                                                 for (Transaction transaction : filterList) {
-                                                    System.out.println(transaction);
+                                                    System.out.println(transaction + "\n");
                                                 }
                                             }
                                             break;

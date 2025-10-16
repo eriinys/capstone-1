@@ -75,7 +75,7 @@ public class Ledger {
     //region display methods
     public void displayAll() {
         if (transactions.isEmpty()){
-            System.out.println("Account empty. There's nothing to display.\n");
+            System.out.println("Account empty. There's nothing to display.");
         }
         for (Transaction transaction : transactions) { //for each element (transaction) in transactions ArrayList...run loop until condition met
             System.out.println(transaction + "\n");
@@ -91,7 +91,7 @@ public class Ledger {
             }
         }
         if (!available) {
-            System.out.println("No deposit history available. \n");
+            System.out.println("No deposit history available.");
         }
     }
 
@@ -104,16 +104,16 @@ public class Ledger {
             }
         }
         if (!available) {
-            System.out.println("No payment history available. \n");
+            System.out.println("No payment history available.");
         }
     }
-    //extra feature added to see total account balance
+    //extra feature added to check total account balance
     public void displayBalance(){
         double balance = 0;
         for (Transaction transaction : transactions) {
             balance += transaction.getAmount();
         }
-        System.out.printf("Your current total balance is: $%.2f %n", balance);
+        System.out.printf("Your current total balance is: $%.2f%n%n", balance);
     }
     //endregion
 
@@ -133,9 +133,9 @@ public class Ledger {
         LocalDate firstOfMonth = today.withDayOfMonth(1);
 
         boolean found = false;
-        System.out.println("Month to date transactions: \n");
+        System.out.println("Month to Date Transactions: \n");
         for (Transaction transaction : transactions) {
-            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate()); //parse original String date to LocalDate
             if (!transactionDate.isBefore(firstOfMonth) && !transactionDate.isAfter(today)) {
                 System.out.println(transaction + "\n");
                 found = true;
@@ -153,7 +153,7 @@ public class Ledger {
         LocalDate prevMonthLast = prevMonthFirst.withDayOfMonth(prevMonthFirst.lengthOfMonth());
 
         boolean found = false;
-        System.out.println("Previous month transactions:\n");
+        System.out.println("Previous Month Transactions:\n");
         for (Transaction transaction : transactions) {
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
             if (!transactionDate.isBefore(prevMonthFirst) && !transactionDate.isAfter(prevMonthLast)) {
@@ -172,7 +172,7 @@ public class Ledger {
         LocalDate firstOfYear = today.withDayOfYear(1);
 
         boolean found = false;
-        System.out.println("Year to date transactions: \n");
+        System.out.println("Year to Date Transactions: \n");
 
         for (Transaction transaction : transactions) {
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
@@ -193,7 +193,7 @@ public class Ledger {
         LocalDate prevYearLast = prevYearFirst.withMonth(12).withDayOfMonth(31);
 
         boolean found = false;
-        System.out.println("Previous year transactions: \n");
+        System.out.println("Previous Year Transactions: \n");
 
         for (Transaction transaction : transactions) {
             LocalDate transactionDate = LocalDate.parse(transaction.getDate());
@@ -210,7 +210,7 @@ public class Ledger {
     //case 5:
     public void searchByVendor(String vendorName) {
         boolean found = false;
-        System.out.println("Transaction result: \n");
+        System.out.println("Transaction Result: \n");
 
         for (Transaction transaction : transactions) {
             if (transaction.getVendor().equalsIgnoreCase(vendorName)) {
@@ -241,9 +241,9 @@ public class Ledger {
     //helper methods for custom search
     public ArrayList<Transaction> filterStartDate(ArrayList<Transaction> filterList, String startDate){
         //filterList here is new variable pointing to same master ArrayList of Transaction object (transactions)
-        if (startDate == null) {
+        if (startDate == null || startDate.isBlank()) {
             return new  ArrayList<> (filterList);
-            //constructor creating/returning new ArrayList with contents copied from filterList (same as master ArrayList)
+            //creating/returning new ArrayList with contents copied from filterList (same as master ArrayList)
         }
         ArrayList<Transaction> filtered = new ArrayList<>(); //list here is empty since we're not copying from any source
         for (Transaction transaction : filterList) {
@@ -257,7 +257,7 @@ public class Ledger {
     }
 
     public ArrayList<Transaction> filterEndDate(ArrayList<Transaction> filterList, String endDate) {
-        if (endDate == null){
+        if (endDate == null || endDate.isBlank()){
             return new  ArrayList<> (filterList);
         }
         ArrayList<Transaction> filtered = new ArrayList<>();
@@ -271,12 +271,12 @@ public class Ledger {
     }
 
     public ArrayList<Transaction> filterDesc(ArrayList<Transaction> filterList, String desc) {
-        if (desc == null) {
+        if (desc == null || desc.isBlank()) {
             return  new ArrayList<>(filterList);
         }
         ArrayList<Transaction> filtered = new ArrayList<>();
         for (Transaction transaction : filterList) {
-            if (transaction.getDescription().contains(desc)) {
+            if (transaction.getDescription().toLowerCase().contains(desc)){
                 filtered.add(transaction);
             }
         }
@@ -284,7 +284,7 @@ public class Ledger {
     }
 
     public ArrayList<Transaction> filterVendor(ArrayList<Transaction> filterList, String vendor) {
-        if (vendor == null) {
+        if (vendor == null || vendor.isBlank()) {
             return  new ArrayList<>(filterList);
         }
         ArrayList<Transaction> filtered = new ArrayList<>();
