@@ -36,14 +36,14 @@ public class HomeScreen {
                     String vendor = nonBlankInput(scanner, "Please enter the vendor: ");
 
                     double amount = validNumber(scanner, "Please enter the payment amount (number only): ");
-                        for (Transaction transaction : ledger.transactions) {
-                            if (amount > transaction.getAmount()) {
+
+                            if (!ledger.isSufficient(amount)) {
                                 System.err.println("Transaction denied. Insufficient amount.");
                             } else {
                                 ledger.makePayment(description, vendor, -amount);
                                 ledger.writeTransaction();
                                 System.out.println("Payment successfully made.");
-                            }
+
                         }
                 }
 
@@ -130,12 +130,14 @@ public class HomeScreen {
 
                                             System.out.println("Enter amount or press Enter to skip:");
                                             String amountInput = scanner.nextLine();
-
+                                            double amountSearch;
                                             if (amountInput.isBlank()) {
-                                                amountInput = null;
-                                            }
+                                                amountSearch = 0;
+                                            } else {
+                                                amountSearch = Double.parseDouble(amountInput);
+                                            } //
 
-                                            ArrayList<Transaction> filterList = ledger.customFilter(startInput, endInput, descInput, vendorInput, amountInput);
+                                            ArrayList<Transaction> filterList = ledger.customFilter(startInput, endInput, descInput, vendorInput, amountSearch);
 
                                             if (filterList.isEmpty()) {
                                                 System.out.println("Matching transaction history not found.");

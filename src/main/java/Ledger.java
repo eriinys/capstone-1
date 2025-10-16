@@ -1,6 +1,5 @@
 import java.io.*;
 import java.time.*;
-import java.util.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.lang.*;
@@ -110,34 +109,22 @@ public class Ledger {
     }
     //extra feature added to see total account balance
     public void displayBalance(){
-        ArrayList<Transaction> negative = new ArrayList<>();
-        ArrayList<Transaction> positive = new ArrayList<>();
-
+        double balance = 0;
         for (Transaction transaction : transactions) {
-            if (transaction.getAmount() < 0) {
-                negative.add(transaction);
-            }
+            balance += transaction.getAmount();
         }
-        double totalNegative = 0;
-        for (Transaction transaction : negative) {
-            totalNegative += transaction.getAmount();
-        }
-
-        for (Transaction transaction : transactions) {
-            if (transaction.getAmount() > 0) {
-                positive.add(transaction);
-            }
-        }
-        double totalPositive = 0;
-        for (Transaction transaction : positive) {
-            totalPositive += transaction.getAmount();
-        }
-
-        double total = totalPositive - totalNegative;
-
-        System.out.println("Your current total balance is: $" + total + "\n");
+        System.out.printf("Your current total balance is: $%.2f %n", balance);
     }
     //endregion
+
+    //method for checking if user has sufficient amount
+    public boolean isSufficient(double amount) {
+        double balance = 0;
+        for (Transaction transaction : transactions){
+            balance += transaction.getAmount();
+        }
+        return balance >= amount;
+    }
 
     //region reports methods for options 1-5
     //case 1:
@@ -238,7 +225,7 @@ public class Ledger {
     //endregion
 
     //region case 6: custom search methods (challenge)
-    public  ArrayList<Transaction> customFilter(String startDate, String endDate, String desc, String vendor, String amount) {
+    public  ArrayList<Transaction> customFilter(String startDate, String endDate, String desc, String vendor, double amount) {
         ArrayList<Transaction> filter;
 
         //filters and reassign updated result back to filter list each time
@@ -309,13 +296,11 @@ public class Ledger {
         return filtered;
     }
 
-    public ArrayList<Transaction> filterAmount(ArrayList<Transaction> filterList, String amount) {
-        if (amount == null) {
-            return  new ArrayList<>(filterList);
-        }
+    public ArrayList<Transaction> filterAmount(ArrayList<Transaction> filterList, double amount) {
+
         ArrayList<Transaction> filtered = new ArrayList<>();
         for (Transaction transaction : filterList){
-            if (transaction.getAmount() == Double.parseDouble(amount)) {
+            if (transaction.getAmount() == amount || amount == 0) {
                 filtered.add(transaction);
             }
         }
