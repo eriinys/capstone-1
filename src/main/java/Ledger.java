@@ -19,11 +19,11 @@ public class Ledger {
             //FileWriter creates new file each time
 
             bw.write("date|time|description|vendor|amount"); //writing header
-            bw.newLine();
+            bw.newLine(); //moves to next line in file
 
             for (Transaction transaction : transactions) { //for every transaction object in transactions ArrayList
                 bw.write(transaction.toString()); //write transaction object in form of String into transaction.csv
-                bw.newLine();//moves to next line in file
+                bw.newLine();
             }
 
         } catch (IOException e) {
@@ -83,27 +83,27 @@ public class Ledger {
     }
 
     public void displayDeposit() {
-        boolean available = false;
+        boolean found = false;
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() > 0) {
                 System.out.println(transaction + "\n");
-                available = true;
+                found = true;
             }
         }
-        if (!available) {
+        if (!found) {
             System.out.println("No deposit history available.");
         }
     }
 
     public void displayPayment() {
-        boolean available = false;
+        boolean found = false;
         for (Transaction transaction : transactions) {
             if (transaction.getAmount() < 0 ) {
                 System.out.println(transaction + "\n");
-                available = true;
+                found = true;
             }
         }
-        if (!available) {
+        if (!found) {
             System.out.println("No payment history available.");
         }
     }
@@ -111,7 +111,7 @@ public class Ledger {
     public void displayBalance(){
         double balance = 0;
         for (Transaction transaction : transactions) {
-            balance += transaction.getAmount();
+            balance += transaction.getAmount(); //adds up all transactions in the list
         }
         System.out.printf("Your current total balance is: $%.2f%n%n", balance);
     }
@@ -128,7 +128,7 @@ public class Ledger {
 
     //region reports methods for options 1-5
     //case 1:
-    public void monthToDate() { //start of month to today's date
+    public void monthToDate() { //prints transaction history from start of this month to today's date
         LocalDate today = LocalDate.now();
         LocalDate firstOfMonth = today.withDayOfMonth(1);
 
@@ -147,7 +147,7 @@ public class Ledger {
     }
 
     //case 2:
-    public void previousMonth() {
+    public void previousMonth() { //prints transaction history from beginning to end of previous month
         LocalDate today = LocalDate.now();
         LocalDate prevMonthFirst = today.minusMonths(1).withDayOfMonth(1);
         LocalDate prevMonthLast = prevMonthFirst.withDayOfMonth(prevMonthFirst.lengthOfMonth());
@@ -167,7 +167,7 @@ public class Ledger {
     }
 
     //case 3:
-    public void yearToDate() {
+    public void yearToDate() { //prints transaction history from beginning of this year to today's date
         LocalDate today = LocalDate.now();
         LocalDate firstOfYear = today.withDayOfYear(1);
 
@@ -187,7 +187,7 @@ public class Ledger {
     }
 
     //case 4:
-    public void previousYear() {
+    public void previousYear() { //prints transaction history from beginning of last year to end of last year
         LocalDate today = LocalDate.now();
         LocalDate prevYearFirst = today.minusYears(1).withMonth(1).withDayOfMonth(1);
         LocalDate prevYearLast = prevYearFirst.withMonth(12).withDayOfMonth(31);
@@ -207,7 +207,7 @@ public class Ledger {
         }
     }
 
-    //case 5:
+    //case 5: //prints transaction history based on vendor name
     public void searchByVendor(String vendorName) {
         boolean found = false;
         System.out.println("Transaction Result: \n");
@@ -227,13 +227,12 @@ public class Ledger {
     //region case 6: custom search methods (challenge)
     public  ArrayList<Transaction> customFilter(String startDate, String endDate, String desc, String vendor, double amount) {
         ArrayList<Transaction> filter;
-
-        //filters and reassign updated result back to filter list each time
+        //filters and reassigns (overwrite) updated result back to filter list each time
         filter = filterStartDate(transactions, startDate);
         filter = filterEndDate(filter, endDate);
         filter = filterDesc(filter, desc);
         filter = filterVendor(filter, vendor);
-        filter = filterAmount(filter, amount); //passes object reference
+        filter = filterAmount(filter, amount);
 
         return filter;
     }

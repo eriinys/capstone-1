@@ -4,8 +4,8 @@ import java.io.*;
 public class HomeScreen {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Ledger ledger = new Ledger(); //create new Ledger object via instantiating Ledger class (blueprint)
-        ledger.readTransaction(); //call .readTransaction() method on ledger object loading transactions from CSV into this ledger object's list
+        Ledger ledger = new Ledger(); //create new Ledger object by instantiating Ledger class (blueprint)
+        ledger.readTransaction(); //calls .readTransaction() method (BufferReader/FileReader) loading transaction list in Ledger class from the .csv file
 
         while (true) {
             System.out.println("""
@@ -23,8 +23,8 @@ public class HomeScreen {
                 case "D" -> { // -> auto ends after case / no break needed; {} for multiple lines
                     String description = nonBlankInput(scanner,"Please enter description of deposit: ");
                     String vendor = nonBlankInput(scanner, "Please enter the vendor: ");
-
                     double amount = validNumber(scanner,"Please enter the deposit amount (number only): ");
+
                     ledger.addDeposit(description, vendor, amount);
                     ledger.writeTransaction();
                     System.out.println("Deposit successfully added.\n");
@@ -84,24 +84,20 @@ public class HomeScreen {
                                             """);
                                     int reportsChoice = Integer.parseInt(scanner.nextLine());
                                     switch (reportsChoice) {
-                                        case 1:
-                                            ledger.monthToDate();
-                                            break;
-                                        case 2:
-                                            ledger.previousMonth();
-                                            break;
-                                        case 3:
-                                            ledger.yearToDate();
-                                            break;
-                                        case 4:
-                                            ledger.previousYear();
-                                            break;
-                                        case 5:
+                                        case 1 -> ledger.monthToDate();
+
+                                        case 2 -> ledger.previousMonth();
+
+                                        case 3 -> ledger.yearToDate();
+
+                                        case 4 -> ledger.previousYear();
+
+                                        case 5 -> {
                                             System.out.println("Enter the name of the vendor you'd like to search for: ");
                                             String vendorName = scanner.nextLine();
                                             ledger.searchByVendor(vendorName);
-                                            break;
-                                        case 6: //custom search challenge
+                                        }
+                                        case 6 -> {//custom search challenge
                                             System.out.println("Please enter the following search values:");
 
                                             System.out.println("Enter the start date in YYYY-MM-DD format or press Enter to skip:");
@@ -140,10 +136,8 @@ public class HomeScreen {
                                                     System.out.println(transaction + "\n");
                                                 }
                                             }
-                                            break;
-                                        case 0:
-                                            reportsMenu = false; //brings user back to ledger menu
-                                            break;
+                                        }
+                                        case 0 -> reportsMenu = false; //brings user back to ledger menu
                                     }
                                 }
                             }
@@ -152,13 +146,11 @@ public class HomeScreen {
                         }
                     }
                 }
-
                 case "X" -> {
                     System.out.println("System closing..." +
                             "\nGoodbye!");
-                    return; //breaks out of entirely out of loop/switch/method
+                    return; //breaks out entirely out of loop/switch/method
                 }
-
                 default -> System.out.println("Invalid input. Please choose from options D, P, L, and X: \n");
             }
         }
@@ -182,7 +174,7 @@ public class HomeScreen {
         while(true) {
             System.out.println(prompt);
             try {
-                double input = Double.parseDouble(scanner.nextLine());
+                double input = Double.parseDouble(scanner.nextLine()); //parse to not leave a newline (read as empty string) behind going from double to String later
                 if (input == 0) {
                     System.err.println("Error: Value cannot be 0. Please try again: \n");
                 } else {

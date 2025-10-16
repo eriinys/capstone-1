@@ -3,9 +3,9 @@ public class Transaction {
     private String time;
     private String description;
     private String vendor;
-    private double amount; //fields
+    private double amount; //field holding reference to Transaction object
 
-    //constructor
+    //constructor (instantiates the Transaction object)
     public Transaction (String date, String time, String description, String vendor, double amount){
         this.date = date;
         this.time = time;
@@ -34,7 +34,6 @@ public class Transaction {
     public double getAmount() {
         return amount;
     }
-
     //endregion
 
     //overriding toString() to display field data into formatted String
