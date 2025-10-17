@@ -82,25 +82,29 @@
 - Added an extra feature to check user's account balance inside Ledger!
 
 ![displaybalance.png](src/main/resources/readme_png/displaybalance.png)
+
+- Filter Method (was the most challenging but most interesting to see the list be 'filtered' each time)
+
+![filter.png](src/main/resources/readme_png/filter.png)
   
 ## Project Structure
 - Home Screen (Main Entry Point)
   - Scanner for prompting users on selection
-  - -switch statement inside while loop for home screen selection 
-    - Add Deposit (save to csv file via BufferedWriter)
+  - Home Screen (switch statement inside while-loop)
+    - Add Deposit
     - Make Payment 
-    - Ledger Display (switch statement)
+    - Ledger Display (nested switch statement)
       - Display all entries
       - Display deposits
       - Display payments
       - Display balance
-      - Reports (switch statement)
+      - Reports (nested switch statement)
         - Month to Date
         - Previous Month
         - Year To Date
         - Previous Year
         - Search by Vendor
-        -Custom Search (challenge option)
+        - Custom Search (filter)
         - Back
       - Home
     - Exit
@@ -108,23 +112,25 @@
 
 - Ledger
   - ArrayLists of Transaction Object
-  - Add Deposit method
-  - Make Payment method
-  - Writing Transaction:
-    - BufferedWriter (transaction.csv) under try/catch
-  - Reading Transaction:
-    - BufferedReader (reading from transaction.csv) under try/catch
-  - Ledger methods
-    - displayAll
-    - displayDeposits
-    - displayPayments
-    - Methods for Reports search (case 1-5)
-    - Custom Search Method (challenge)
+  - Add Deposit Method
+  - Make Payment Method
+    - Boolean Method (checks if user has sufficient fund to make payment)
+  - Write Transaction Method:
+    - BufferedWriter/FileWriter
+  - Read Transaction Method:
+    - BufferedReader/FileReader
+  - Ledger Menu Methods:
+    - Display All
+    - Display Deposits
+    - Display Payments
+    - Display Balance
+    - Methods for Reports Search (case 1-5)
+    - Custom Filter Method
 
 - Transaction
-    - Transaction field
-    - Transaction constructor
-    - getters/setters
+    - Transaction Field
+    - Transaction Constructor
+    - Getters
     - toString method
 
 ## Testing/Bugfix History:

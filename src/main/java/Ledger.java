@@ -224,9 +224,10 @@ public class Ledger {
     }
     //endregion
 
-    //region case 6: custom search methods (challenge)
+    //region case 6: custom search method (challenge)
     public  ArrayList<Transaction> customFilter(String startDate, String endDate, String desc, String vendor, double amount) {
-        ArrayList<Transaction> filter;
+        ArrayList<Transaction> filter; //null until assigned
+
         //filters and reassigns (overwrite) updated result back to filter list each time
         filter = filterStartDate(transactions, startDate);
         filter = filterEndDate(filter, endDate);
@@ -244,7 +245,7 @@ public class Ledger {
             return new  ArrayList<> (filterList);
             //creating/returning new ArrayList with contents copied from filterList (same as master ArrayList)
         }
-        ArrayList<Transaction> filtered = new ArrayList<>(); //list here is empty since we're not copying from any source
+        ArrayList<Transaction> filtered = new ArrayList<>(); //creates new empty list that hold reference to ArrayList<Transaction>
         for (Transaction transaction : filterList) {
             //filterList is looping through same data that lives in transactions list
             LocalDate parsed = LocalDate.parse(transaction.getDate());
