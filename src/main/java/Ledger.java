@@ -12,17 +12,16 @@ public class Ledger {
     //setting time formatter
     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    //setting method for writing transaction to transaction.csv using BufferedWriter
+    //setting method for writing transaction to transaction.csv using BufferedWriter/FileWriter
     public void writeTransaction() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/transaction.csv"))) {
             //try with resource to make sure FileWriter closes at the end of use
-            //FileWriter creates new file each time
 
             bw.write("date|time|description|vendor|amount"); //writing header
             bw.newLine(); //moves to next line in file
 
             for (Transaction transaction : transactions) { //for every transaction object in transactions ArrayList
-                bw.write(transaction.toString()); //write transaction object in form of String into transaction.csv
+                bw.write(transaction.toString()); //write transaction in readable String format into transaction.csv
                 bw.newLine();
             }
 
@@ -47,7 +46,7 @@ public class Ledger {
     }
     //endregion
 
-    //setting method for reading transaction using BufferedReader
+    //setting method for reading transaction using BufferedReader/FileReader
     public void readTransaction() {
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/transaction.csv"))) {
 
